@@ -1,0 +1,5 @@
+.DS_Store
+.texpadtmp
+*.aux
+*.out
+*.pdf

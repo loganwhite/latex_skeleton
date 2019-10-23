@@ -1,0 +1,70 @@
+%%
+%% This is file `xspotcolor.sty',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% xspotcolor.dtx  (with options: `package')
+%% ----------------------------------------------------------------
+%% xspotcolor --- better integration of spot colors in LaTeX
+%% E-mail: Stephan.Lehmke@QuinScape.de
+%% Web: www.docscape.de
+%% Released under the LaTeX Project Public License v1.3c or later
+%% See http://www.latex-project.org/lppl.txt
+%% ----------------------------------------------------------------
+%% 
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{xspotcolor}[2013/11/21 v1.1 better integration of spot colors in LaTeX]
+\RequirePackage{etoolbox}
+\RequirePackage{spotcolor}
+\RequirePackage{xcolor}
+\newif\ifautodefine@xspc
+\DeclareOption{autodefine}{\autodefine@xspctrue}
+\DeclareOption{hks}{\hkstrue}
+\DeclareOption{pantone}{\pantonetrue}
+
+\ProcessOptions\relax
+\apptocmd\SpotColor{\aftergroup\reset@color}{}{}
+\ifautodefine@xspc
+  \apptocmd\AddSpotColor{\definecolor{#2}{spotcolor}{#2,1.0}}{}{}
+\fi
+\XC@sdef\XC@mod@spotcolor{spotcolor}
+\def\@@pdfspotcolordef@xspc#1,#2\@@{/#1 cs /#1 CS #2 sc #2 SC}
+\let\o@XC@definec@lor@xspc\XC@definec@lor
+\def\XC@definec@lor[#1]#2[#3]#4#5%
+{%
+  \expandafter\ifx\csname XC@mod@#4\endcsname\XC@mod@spotcolor
+    \expandafter\xdef\csname\string\color @#2\endcsname
+    {\noexpand\xcolor@{}{\@@pdfspotcolordef@xspc#5\@@}{spotcolor}{#5}}%
+   \else
+    \o@XC@definec@lor@xspc[#1]{#2}[#3]{#4}{#5}%
+  \fi
+}%
+\def\pgfsys@color@spotcolor@stroke#1#2{\pgfsysprotocol@literal{/#1 CS}\pgfsysprotocol@literal{#2 SC}}
+\def\pgfsys@color@spotcolor@fill#1#2{\pgfsysprotocol@literal{/#1 cs}\pgfsysprotocol@literal{#2 sc}}
+\def\pgfsys@color@spotcolor#1#2{\pgfsys@color@spotcolor@stroke{#1}{#2}\pgfsys@color@spotcolor@fill{#1}{#2}}
+\ifhks\input{spotcolorhks}\fi
+\ifpantone\input{spotcolorpantone}\fi
+
+%% 
+%% Copyright (C) 2012 by Stephan Lehmke <Stephan.Lehmke@QuinScape.de>
+%% 
+%% This work may be distributed and/or modified under the
+%% conditions of the LaTeX Project Public License (LPPL), either
+%% version 1.3c of this license or (at your option) any later
+%% version.  The latest version of this license is in the file:
+%% 
+%% http://www.latex-project.org/lppl.txt
+%% 
+%% This work is "maintained" (as per LPPL maintenance status) by
+%% Stephan Lehmke.
+%% 
+%% This work consists of the files xspotcolor.dtx
+%%                                 spotcolorseparation.png
+%% and the derived files           xspotcolor.ins,
+%%                                 xspotcolor.pdf,
+%%                                 xspotcolor.sty, and
+%%                                 xspotcolorxmpl.tex
+%% 
+%%
+%% End of file `xspotcolor.sty'.
